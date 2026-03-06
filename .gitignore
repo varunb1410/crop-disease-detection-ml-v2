@@ -1,0 +1,23 @@
+# Virtual environment
+venv/
+
+# Dataset
+dataset/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Model files (optional)
+*.h5
+*.keras
