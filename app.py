@@ -9,7 +9,13 @@ from PIL import Image
 app = Flask(__name__)
 
 # Load model
-model = tf.keras.models.load_model("model.h5")
+model = None
+
+def load_model_once():
+    global model
+    if model is None:
+        print("Loading model...")
+        model = tf.keras.models.load_model("model.h5")
 
 # Load class names
 with open("class_names.json") as f:
@@ -21,6 +27,8 @@ with open("disease_info.json") as f:
 IMG_SIZE = (128, 128)
 
 def predict_image(img):
+    load_model_once()
+
     img = img.convert("RGB")
     img = img.resize((128, 128))
 
@@ -55,6 +63,7 @@ def index():
 
         if file:
             image = Image.open(file)
+            load_model_once()
             results = predict_image(image)
 
     return render_template("index.html", results=results)
