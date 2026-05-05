@@ -9,7 +9,7 @@ from PIL import Image
 app = Flask(__name__)
 
 # Load model
-model = tf.keras.models.load_model("plant_disease_model_final.keras")
+model = tf.keras.models.load_model("model.h5")
 
 # Load class names
 with open("class_names.json") as f:
