@@ -1,4 +1,28 @@
 {
   "Tomato___Late_blight": "Cause: Fungal disease. Remedy: Apply fungicide and remove infected leaves.",
-  "Potato___Late_blight": "Cause: Moist conditions. Remedy: Improve air circulation."
+  "Tomato___Early_blight": "Cause: Alternaria fungus. Remedy: Use copper fungicide and avoid overwatering.",
+  "Tomato___Bacterial_spot": "Cause: Bacterial infection. Remedy: Remove infected leaves and apply bactericide.",
+  "Tomato___Leaf_Mold": "Cause: High humidity fungus. Remedy: Improve ventilation and apply fungicide.",
+  "Tomato___Septoria_leaf_spot": "Cause: Fungal infection. Remedy: Remove infected leaves and avoid wet foliage.",
+  "Tomato___Spider_mites Two-spotted_spider_mite": "Cause: Spider mites infestation. Remedy: Spray neem oil or insecticidal soap.",
+  "Tomato___Target_Spot": "Cause: Fungal disease. Remedy: Use fungicides and rotate crops.",
+  "Tomato___Tomato_Yellow_Leaf_Curl_Virus": "Cause: Viral infection spread by whiteflies. Remedy: Control insects and remove infected plants.",
+  "Tomato___Tomato_mosaic_virus": "Cause: Viral disease. Remedy: Remove infected plants and disinfect tools.",
+  "Tomato___healthy": "Healthy plant detected. No disease symptoms found.",
+
+  "Potato___Early_blight": "Cause: Fungal disease. Remedy: Use disease-free seeds and fungicide.",
+  "Potato___Late_blight": "Cause: Water mold infection. Remedy: Remove infected leaves and spray fungicide.",
+  "Potato___healthy": "Healthy potato plant detected.",
+
+  "Pepper,_bell___Bacterial_spot": "Cause: Bacterial infection. Remedy: Use copper spray and avoid overhead watering.",
+  "Pepper,_bell___healthy": "Healthy bell pepper plant detected.",
+
+  "Apple___Apple_scab": "Cause: Fungal disease. Remedy: Apply fungicide during growing season.",
+  "Apple___Black_rot": "Cause: Fungus. Remedy: Remove infected fruits and branches.",
+  "Apple___Cedar_apple_rust": "Cause: Rust fungus. Remedy: Use resistant varieties and fungicides.",
+  "Apple___healthy": "Healthy apple leaf detected.",
+
+  "Corn_(maize)___Common_rust_": "Cause: Fungal rust disease. Remedy: Use resistant hybrids and fungicides.",
+  "Corn_(maize)___Northern_Leaf_Blight": "Cause: Fungus. Remedy: Crop rotation and resistant varieties.",
+  "Corn_(maize)___healthy": "Healthy maize plant detected."
 }

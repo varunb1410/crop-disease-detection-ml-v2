@@ -1,107 +1,134 @@
-from cProfile import label
-
 from flask import Flask, render_template, request
 import tensorflow as tf
 import numpy as np
 import json
 from PIL import Image
-
 import os
+
+# Reduce TensorFlow warnings
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 
 app = Flask(__name__)
 
-# Load model
-model = None
-
-def load_model_once():
-    global model
-    if model is None:
-        print("Loading model...")
-        model = tf.keras.models.load_model(
-            "saved_model",
-            compile=False
-        )
+# Image size
+IMG_SIZE = (128, 128)
 
 # Load class names
 with open("class_names.json") as f:
     class_names = json.load(f)
 
+# Load disease information
 with open("disease_info.json") as f:
     disease_info = json.load(f)
 
-IMG_SIZE = (128, 128)
+# Load model once
+model = None
 
-def predict_image(img):
-    try:
-        load_model_once()
-        print("Model loaded")
+def load_model_once():
+    global model
 
-        img = img.convert("RGB")
-        img = img.resize((128, 128))
-        print("Image processed")
-
-        img_array = np.array(img)
-        img_array = np.expand_dims(img_array, axis=0)
-
-        infer = model.signatures["serving_default"]
-        tensor = tf.convert_to_tensor(img_array, dtype=tf.float32)
-        prediction = infer(tensor)
-        prediction = list(prediction.values())[0].numpy()[0]
+    if model is None:
+        print("Loading TensorFlow model...")
         
-        print("Prediction done")
+        model = tf.keras.models.load_model(
+            "final_model.h5",
+            compile=False
+        )
 
-        top3_idx = prediction.argsort()[-3:][::-1]
+        print("Model loaded successfully")
 
-        results = []
-        for i in top3_idx:
-            label = class_names[i]
-            display_label = label.replace("___", " : ").replace("_", " ")
 
-            results.append({
-                "class": display_label,
-                "confidence": round(float(prediction[i]) * 100, 2),
-                "info": disease_info.get(label, "No info available")
-            })
+# Prediction function
+def predict_image(img):
 
-        return results
+    load_model_once()
 
-    except Exception as e:
-        print("ERROR:", str(e))
-        return [{
-            "class": "Error",
-            "confidence": 0,
-            "info": str(e)
-        }]
+    # Image preprocessing
+    img = img.convert("RGB")
+    img = img.resize(IMG_SIZE)
 
+    img_array = np.array(img)
+    img_array = np.expand_dims(img_array, axis=0)
+
+    prediction = model.predict(img_array)[0]
+
+    # Get top 3 predictions
+    top3_idx = prediction.argsort()[-3:][::-1]
+
+    results = []
+
+    for i in top3_idx:
+
+        label = class_names[i]
+
+        display_label = (
+            label.replace("___", " : ")
+                 .replace("_", " ")
+        )
+
+        results.append({
+            "class": display_label,
+            "confidence": round(float(prediction[i]) * 100, 2),
+            "info": disease_info.get(
+                label,
+                "No disease information available."
+            )
+        })
+
+    return results
+
+
+# Home route
 @app.route("/", methods=["GET", "POST"])
 def index():
+
     results = None
 
     if request.method == "POST":
+
         file = request.files.get("file")
 
         if not file or file.filename == "":
-            return render_template("index.html", results=[{
-                "class": "No file selected",
+
+            results = [{
+                "class": "No File Selected",
                 "confidence": 0,
-                "info": "Please upload an image"
-            }])
+                "info": "Please upload an image."
+            }]
+
+            return render_template(
+                "index.html",
+                results=results
+            )
 
         try:
+
             image = Image.open(file.stream)
+
             results = predict_image(image)
+
         except Exception as e:
+
+            print("Prediction Error:", str(e))
+
             results = [{
-                "class": "Upload Error",
+                "class": "Error",
                 "confidence": 0,
                 "info": str(e)
             }]
 
-    return render_template("index.html", results=results)
+    return render_template(
+        "index.html",
+        results=results
+    )
 
-import os
 
+# Run app
 if __name__ == "__main__":
+
     port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+
+    app.run(
+        host="0.0.0.0",
+        port=port
+    )

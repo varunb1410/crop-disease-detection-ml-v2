@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Plant Disease Detection</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Plant Disease Detection</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 
 <body>
@@ -11,48 +20,100 @@
 <div class="container">
 
     <h1>🌿 Plant Disease Detection</h1>
-    <p class="subtitle">Upload a leaf image to detect plant disease</p>
 
-    <form method="POST" enctype="multipart/form-data" class="upload-box">
-        <input type="file" name="file" id="fileInput" required>
+    <p class="subtitle">
+        Upload a leaf image to detect plant disease
+    </p>
 
-        <label for="fileInput" class="upload-label">
+    <!-- Upload Form -->
+    <form method="POST"
+          enctype="multipart/form-data"
+          class="upload-box"
+          id="uploadForm">
+
+        <input type="file"
+               name="file"
+               id="fileInput"
+               required>
+
+        <label for="fileInput"
+               class="upload-label">
+
             📁 Choose Image
+
         </label>
 
-        <!-- Preview image -->
-        <img id="preview" 
-             style="display:none; margin-top:15px; max-width:100%; border-radius:10px;">
+        <!-- Image Preview -->
+        <img id="preview"
+             class="preview-image">
 
-        <button type="submit">Predict</button>
+        <!-- Predict Button -->
+        <button type="submit">
+            Predict
+        </button>
+
+        <!-- Loading Text -->
+        <div id="loading"
+             class="loading-text">
+
+            🔍 Analyzing leaf image...
+
+        </div>
+
     </form>
 
+    <!-- Prediction Results -->
     {% if results %}
+
     <div class="result-card">
 
         <h2>Top Predictions</h2>
 
-        <!-- Top prediction -->
+        <!-- Best Prediction -->
         <div class="top-result">
-            <h3>🌟 {{ results[0].class }}</h3>
-            <p>{{ results[0].confidence }}%</p>
-            <p>{{ results[0].info }}</p>
+
+            <h3>
+                🌟 {{ results[0].class }}
+            </h3>
+
+            <p class="confidence">
+                {{ results[0].confidence }}%
+            </p>
+
+            <p>
+                {{ results[0].info }}
+            </p>
+
         </div>
 
-        <!-- Other predictions -->
+        <!-- Other Predictions -->
         {% for r in results[1:] %}
-            <div class="result-item">
-                <h4>{{ r.class }} ({{ r.confidence }}%)</h4>
-                <p>{{ r.info }}</p>
-            </div>
+
+        <div class="result-item">
+
+            <h4>
+                {{ r.class }}
+            </h4>
+
+            <p class="confidence-small">
+                {{ r.confidence }}%
+            </p>
+
+            <p>
+                {{ r.info }}
+            </p>
+
+        </div>
+
         {% endfor %}
 
     </div>
+
     {% endif %}
 
 </div>
 
-<!-- JS should be at bottom -->
+<!-- JavaScript -->
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
