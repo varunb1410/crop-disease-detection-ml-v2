@@ -44,7 +44,7 @@ def predict_image(img):
         img_array = np.array(img)
         img_array = np.expand_dims(img_array, axis=0)
 
-        prediction = model.predict(img_array)[0]
+        prediction = model(img_array, training=False).numpy()[0]
         print("Prediction done")
 
         top3_idx = prediction.argsort()[-3:][::-1]
