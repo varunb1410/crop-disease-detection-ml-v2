@@ -19,7 +19,7 @@ def load_model_once():
     if model is None:
         print("Loading model...")
         model = tf.keras.models.load_model(
-            "final_model.h5",
+            "saved_model",
             compile=False
         )
 
