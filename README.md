@@ -96,6 +96,7 @@ python app.py
 ![alt text](image-3.png)
 
 - Disease Remedies
+![alt text](image-4.png)
 
 ---
 
