@@ -18,7 +18,10 @@ def load_model_once():
     global model
     if model is None:
         print("Loading model...")
-        model = tf.keras.models.load_model("model.h5")
+        model = tf.keras.models.load_model(
+            "final_model.h5",
+            compile=False
+        )
 
 # Load class names
 with open("class_names.json") as f:
